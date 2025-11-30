@@ -8,9 +8,9 @@ async function bootstrap() {
   app.enableCors({
     // Thay vì liệt kê link, để 'true' nghĩa là:
     // "Ai gọi tôi cũng trả lời, và tôi tự động copy nguồn của họ vào header cho phép"
-    origin: true, 
+    origin: '*', // Cho phép TẤT CẢ mọi nơi gọi vào (Không cần credentials nữa)
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
+    //credentials: true,
   });
   // --------------------
 
