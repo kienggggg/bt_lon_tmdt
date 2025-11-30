@@ -12,7 +12,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1'); 
 
   // 3. Đổi Port thành 3001 (để tránh đụng hàng với Next.js đang chạy ở 3000)
-  await app.listen(3001); 
-  console.log(`Backend is running on: http://localhost:3001/api/v1`);
+  await app.listen(process.env.PORT || 3001, '0.0.0.0');
+  console.log(`Backend is running on: ${await app.getUrl()}`);
 }
 bootstrap();
