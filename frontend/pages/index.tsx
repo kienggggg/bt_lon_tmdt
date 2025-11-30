@@ -62,10 +62,10 @@ export default function Home() {
               <div className="mt-4 p-4 bg-gray-50 rounded-lg inline-block border border-gray-200">
                  <p className="text-gray-600">
                     🎯 Gợi ý dành riêng cho: <span className="font-bold text-blue-600 capitalize">
-                      {user.user_type === 'student' ? 'Sinh viên/Cá nhân' : 
-                       user.user_type === 'professional' ? 'Chuyên gia' : 
-                       user.user_type === 'organizer' ? 'Người tổ chức' : 
-                       user.user_type || 'Người dùng'}
+                      {user.role === 'student' ? 'Sinh viên/Cá nhân' : 
+                       user.role === 'professional' ? 'Chuyên gia' : 
+                       user.role === 'organizer' ? 'Người tổ chức' : 
+                       user.role || 'Người dùng'}
                     </span>
                  </p>
               </div>
