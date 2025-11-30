@@ -28,7 +28,7 @@ export default function EventCard({ event }: EventProps) {
   // Lấy thông tin user từ AuthContext
   const { user } = useAuth();
   // Lấy user_type (nếu chưa đăng nhập thì là undefined)
-  const userType = user?.user_type;
+  const userType = user?.role; // Đổi thành role
 
   return (
     <div className="border rounded-lg p-4 shadow-md bg-white mb-4">
