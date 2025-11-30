@@ -41,7 +41,7 @@ export default function EventsPage() {
         <h1 className="text-3xl font-bold text-gray-800 mb-2">🎉 Sự kiện nổi bật</h1>
         {user ? (
           <p className="text-blue-600">
-            Gợi ý dành riêng cho: <span className="font-bold">{user.user_type === 'student' ? 'Sinh viên' : 'Chuyên gia'}</span>
+            Gợi ý dành riêng cho: <span className="font-bold">{user.role === 'student' ? 'Sinh viên' : 'Chuyên gia'}</span>
           </p>
         ) : (
           <p className="text-gray-500">Đăng nhập để xem nội dung được cá nhân hóa cho bạn.</p>
