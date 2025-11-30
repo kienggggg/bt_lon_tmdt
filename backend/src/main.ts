@@ -6,12 +6,10 @@ async function bootstrap() {
 
   // 1. Bật CORS (Để Frontend port 3000 gọi được Backend port 3001)
   app.enableCors({
-    // Cho phép Frontend trên Vercel và Localhost gọi vào
-    origin: [
-      'http://localhost:3000', 
-      'https://bt-lon-tmdt.vercel.app' // <-- Thay đúng link Vercel của bạn vào đây
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // Thay vì liệt kê link, để 'true' nghĩa là:
+    // "Ai gọi tôi cũng trả lời, và tôi tự động copy nguồn của họ vào header cho phép"
+    origin: true, 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
   // --------------------
