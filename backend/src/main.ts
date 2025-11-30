@@ -5,14 +5,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // 1. Bật CORS (Để Frontend port 3000 gọi được Backend port 3001)
-  app.enableCors();
+  app.enableCors({
+    // Cho phép Frontend trên Vercel và Localhost gọi vào
+    origin: [
+      'http://localhost:3000', 
+      'https://bt-lon-tmdt.vercel.app/' // <-- Thay đúng link Vercel của bạn vào đây
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
+  // --------------------
 
-  // 2. Cài đặt tiền tố toàn cục (Global Prefix)
-  // Nếu thiếu dòng này, API sẽ là localhost:3001/auth/login -> LỖI 404 vì Frontend gọi api/v1/...
   app.setGlobalPrefix('api/v1'); 
-
-  // 3. Đổi Port thành 3001 (để tránh đụng hàng với Next.js đang chạy ở 3000)
-  await app.listen(process.env.PORT || 3001, '0.0.0.0');
+  await app.listen(process.env.PORT || 3001, '0.0.0.0'); 
   console.log(`Backend is running on: ${await app.getUrl()}`);
 }
 bootstrap();
