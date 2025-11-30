@@ -1,0 +1,26 @@
+{
+  "name": "eventpass",
+  "version": "1.0.0",
+  "description": "EventPass Project - Full Stack Application",
+  "private": true,
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run start:dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "start:backend": "cd backend && npm run start",
+    "start:frontend": "cd frontend && npm run start"
+  },
+  "keywords": [
+    "eventpass",
+    "events",
+    "tickets"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.4"
+  }
+}

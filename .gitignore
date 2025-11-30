@@ -1,0 +1,21 @@
+# Bỏ qua các thư viện nặng
+node_modules/
+**/node_modules/
+
+# Bỏ qua file build
+dist/
+.next/
+build/
+
+# Bỏ qua file môi trường (CHỨA MẬT KHẨU -> TUYỆT ĐỐI KHÔNG UP)
+.env
+.env.local
+.env.*
+
+# Bỏ qua file log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Hệ thống
+.DS_Store
