@@ -1,7 +1,9 @@
 // src/events/events.controller.ts
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { EventsService } from './events.service';
-
+import { Post, Body, UseGuards, Request } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
 @Controller('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
@@ -33,5 +35,11 @@ export class EventsController {
   @Get(':slug')
   findOne(@Param('slug') slug: string) {
     return this.eventsService.findOneBySlug(slug);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard) // <-- Bảo vệ 2 lớp: Phải đăng nhập + Phải là Admin
+  @Post()
+  create(@Request() req, @Body() createEventDto: any) {
+    return this.eventsService.create(createEventDto, req.user.userId);
   }
 }

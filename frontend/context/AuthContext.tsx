@@ -3,9 +3,11 @@ import axios from "axios";
 import { useRouter } from "next/router";
 
 interface User {
-  full_name: string;
-  user_type: string;
+  id: string;        // Nên thêm ID
   email: string;
+  full_name: string;
+  role: string;      // 👈 THÊM DÒNG NÀY ĐỂ HẾT LỖI
+  // user_type: string; // Dòng này có thể xóa nếu không dùng nữa
 }
 
 interface AuthContextType {

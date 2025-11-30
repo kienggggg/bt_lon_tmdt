@@ -84,9 +84,17 @@ export default function MainLayout({ children }: MainLayoutProps) {
             {/* Menu bên phải */}
             <div className="flex items-center gap-4">
               {user ? (
-                // Đã đăng nhập
-                <div className="flex items-center gap-4">
-                  <span className="text-sm text-gray-600 hidden md:block">
+  <div className="flex items-center gap-4">
+    {/* 👇 THÊM ĐOẠN NÀY: Chỉ hiện nút Tạo sự kiện nếu là Admin/Organizer */}
+    {(user.role === 'admin' || user.role === 'organizer') && (
+      <Link href="/admin/create-event">
+        <button className="flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-medium hover:bg-purple-200 transition">
+          <span>➕</span> Tạo sự kiện
+        </button>
+      </Link>
+    )}
+    
+    <span className="text-sm text-gray-600 hidden md:block">
                     Hi, <span className="font-semibold text-gray-900">{user.email.split('@')[0]}</span>
                   </span>
                   

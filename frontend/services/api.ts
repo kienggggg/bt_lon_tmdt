@@ -32,7 +32,7 @@ export const eventApi = {
   getAll: () => api.get<Event[]>('/events'),
   search: (params: any) => api.get<Event[]>('/events', { params }),
   getBySlug: (slug: string) => api.get<Event>(`/events/${slug}`),
-  
+  create: (data: any) => api.post('/events', data),
   // 👇 SỬA LỖI 2: Thêm hàm này để trang web không bị Crash
   // Tạm thời lấy danh sách ngẫu nhiên hoặc tất cả
   getRelated: (id: string, limit?: number) => api.get<Event[]>('/events'),

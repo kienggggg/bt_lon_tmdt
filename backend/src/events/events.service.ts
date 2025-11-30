@@ -3,14 +3,57 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike, MoreThanOrEqual, LessThanOrEqual } from 'typeorm'; // Import thêm ILike
 import { Event } from './entities/event.entity';
+import { TicketType } from './entities/ticket-type.entity'; // Nhớ import TicketType
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectRepository(Event)
-    private eventsRepository: Repository<Event>,
+    @InjectRepository(Event) private eventsRepository: Repository<Event>,
+    private dataSource: DataSource,
   ) {}
 
+  async create(createEventDto: any, userId: string) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      // 1. Lưu Event
+      const event = new Event();
+      event.title = createEventDto.title;
+      event.description = createEventDto.description;
+      event.slug = createEventDto.slug; // Nên có hàm tự generate slug từ title
+      event.start_time = createEventDto.start_time;
+      event.end_time = createEventDto.end_time;
+      event.location = createEventDto.location;
+      event.is_online = createEventDto.is_online === 'true' || createEventDto.is_online === true;
+      
+      const savedEvent = await queryRunner.manager.save(event);
+
+      // 2. Lưu Ticket Types (Nếu có)
+      if (createEventDto.tickets && Array.isArray(createEventDto.tickets)) {
+        for (const t of createEventDto.tickets) {
+          const ticket = new TicketType();
+          ticket.name = t.name;
+          ticket.price = t.price;
+          ticket.initial_quantity = t.quantity;
+          ticket.remaining_quantity = t.quantity;
+          ticket.event = savedEvent;
+          await queryRunner.manager.save(ticket);
+        }
+      }
+
+      await queryRunner.commitTransaction();
+      return savedEvent;
+
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+  }
   // --- SỬA HÀM TÌM KIẾM (Fix lỗi Search không ra) ---
   async findAll(query: any) {
     const { q, location, is_online, start_date } = query;
