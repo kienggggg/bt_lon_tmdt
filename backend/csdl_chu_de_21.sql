@@ -421,3 +421,6 @@ CREATE TABLE IF NOT EXISTS booking_items (
   price NUMERIC(12,2) NOT NULL CHECK (price >= 0),
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check;
+ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('admin', 'user', 'organizer', 'student', 'professional'));
