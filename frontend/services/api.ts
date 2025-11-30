@@ -30,6 +30,7 @@ api.interceptors.request.use(
 
 export const eventApi = {
   getAll: () => api.get<Event[]>('/events'),
+  search: (params: any) => api.get<Event[]>('/events', { params }),
   getBySlug: (slug: string) => api.get<Event>(`/events/${slug}`),
   
   // 👇 SỬA LỖI 2: Thêm hàm này để trang web không bị Crash
