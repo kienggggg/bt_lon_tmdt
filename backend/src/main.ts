@@ -4,18 +4,19 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 1. Bật CORS (Để Frontend port 3000 gọi được Backend port 3001)
+  // Cấu hình CORS "thoáng" nhất để test cho dễ
   app.enableCors({
-    origin: '*', // Mở hết cho dễ
+    origin: '*', // Cho phép tất cả
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
 
   app.setGlobalPrefix('api/v1'); 
 
-  // 👇 SỬA DÒNG NÀY (Thêm '0.0.0.0' vào cuối)
-  await app.listen(process.env.PORT || 3001, '0.0.0.0'); 
+  // Quan trọng: Lắng nghe trên 0.0.0.0
+  // Nếu có biến PORT thì dùng, không thì dùng 3000
+  await app.listen(process.env.PORT || 3000, '0.0.0.0'); 
   
-  console.log(`Backend is running on: ${await app.getUrl()}`);
+  console.log(`Backend is running`); // Bỏ app.getUrl() đi cho đỡ hoang mang
 }
 bootstrap();
