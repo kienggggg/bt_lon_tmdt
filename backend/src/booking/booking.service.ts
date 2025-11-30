@@ -76,7 +76,7 @@ export class BookingService {
       return {
         status: 'success',
         booking_id: savedBooking.id,
-        payment_url: `http://localhost:3000/user/my-tickets`, // Chuyển hướng về trang vé
+        payment_url: `https://bt-lon-tmdt.vercel.app/user/my-tickets`, // Chuyển hướng về trang vé
       };
 
     } catch (err) {
