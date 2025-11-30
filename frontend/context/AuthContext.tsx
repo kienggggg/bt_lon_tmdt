@@ -1,13 +1,13 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
+// 👇 IMPORT API INSTANCE THAY VÌ AXIOS GỐC
+import api from "../services/api"; 
 
 interface User {
-  id: string;        // Nên thêm ID
-  email: string;
+  id: string;
   full_name: string;
-  role: string;      // 👈 THÊM DÒNG NÀY ĐỂ HẾT LỖI
-  // user_type: string; // Dòng này có thể xóa nếu không dùng nữa
+  role: string;
+  email: string;
 }
 
 interface AuthContextType {
@@ -28,14 +28,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchUser = async (accessToken: string) => {
     try {
-      // Gọi API Backend thật (hoặc mock)
-      const res = await axios.get("http://localhost:3001/api/v1/users/me", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      // 👇 SỬA ĐOẠN NÀY: Dùng api.get thay vì axios.get
+      // Không cần truyền header Authorization nữa vì api.ts đã tự làm rồi
+      // Không cần gõ http://localhost... nữa vì api.ts đã có baseURL
+      const res = await api.get("/users/me"); 
       setUser(res.data);
     } catch (error) {
       console.error("Lỗi lấy user:", error);
-      logout();
+      logout(); // Token lỗi thì logout luôn
+    } finally {
+        setLoading(false);
     }
   };
 
@@ -47,7 +49,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("access_token");
-    localStorage.removeItem("user_type");
     setUser(null);
     setToken(null);
     router.push("/login");
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const storedToken = localStorage.getItem("access_token");
     if (storedToken) {
       setToken(storedToken);
-      fetchUser(storedToken).finally(() => setLoading(false));
+      fetchUser(storedToken);
     } else {
       setLoading(false);
     }
