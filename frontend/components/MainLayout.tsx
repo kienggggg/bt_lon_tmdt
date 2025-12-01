@@ -87,12 +87,22 @@ export default function MainLayout({ children }: MainLayoutProps) {
   <div className="flex items-center gap-4">
     {/* 👇 THÊM ĐOẠN NÀY: Chỉ hiện nút Tạo sự kiện nếu là Admin/Organizer */}
     {(user.role === 'admin' || user.role === 'organizer') && (
-      <Link href="/admin/create-event">
-        <button className="flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-lg font-medium hover:bg-purple-200 transition">
-          <span>➕</span> Tạo sự kiện
-        </button>
-      </Link>
-    )}
+  <div className="flex gap-2 mr-4">
+    {/* Nút Tạo sự kiện cũ */}
+    <Link href="/admin/create-event">
+      <button className="flex items-center gap-2 bg-purple-100 text-purple-700 px-3 py-2 rounded-lg font-medium hover:bg-purple-200 transition text-sm">
+        <span>➕</span> Tạo sự kiện
+      </button>
+    </Link>
+
+    {/* 👇 THÊM NÚT NÀY: Dẫn sang trang Dashboard */}
+    <Link href="/admin/dashboard">
+      <button className="flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-2 rounded-lg font-medium hover:bg-blue-200 transition text-sm">
+        <span>📊</span> Thống kê
+      </button>
+    </Link>
+  </div>
+)}
     
     <span className="text-sm text-gray-600 hidden md:block">
                     Hi, <span className="font-semibold text-gray-900">{user.email.split('@')[0]}</span>

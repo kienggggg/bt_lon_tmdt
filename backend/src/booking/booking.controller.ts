@@ -25,4 +25,9 @@ export class BookingController {
   sendEmail(@Request() req, @Param('id') id: string) {
     return this.bookingService.sendTicketEmail(id, req.user.userId);
   }
+  @UseGuards(JwtAuthGuard) // Có thể thêm RolesGuard nếu muốn chặt chẽ
+  @Get('stats') // API sẽ là /api/v1/booking/stats
+  getStats() {
+    return this.bookingService.getDashboardStats();
+  }
 }

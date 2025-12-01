@@ -148,4 +148,34 @@ export class BookingService {
       throw new BadRequestException('Lỗi khi gửi email: ' + error.message);
     }
   }
+  async getDashboardStats() {
+    // 1. Tổng doanh thu (Chỉ tính đơn PAID)
+    const revenue = await this.bookingRepo
+      .createQueryBuilder('booking')
+      .select('SUM(booking.total_amount)', 'total')
+      .where('booking.status = :status', { status: 'PAID' })
+      .getRawOne();
+
+    // 2. Tổng số vé đã bán
+    const tickets = await this.dataSource
+      .getRepository(BookingItem)
+      .createQueryBuilder('item')
+      .select('SUM(item.quantity)', 'total')
+      .leftJoin('item.booking', 'booking')
+      .where('booking.status = :status', { status: 'PAID' })
+      .getRawOne();
+
+    // 3. Lấy 5 đơn hàng mới nhất
+    const recentBookings = await this.bookingRepo.find({
+      order: { created_at: 'DESC' },
+      take: 5,
+      relations: ['user', 'items', 'items.ticket_type', 'items.ticket_type.event'],
+    });
+
+    return {
+      totalRevenue: revenue.total ? Number(revenue.total) : 0,
+      totalTickets: tickets.total ? Number(tickets.total) : 0,
+      recentBookings,
+    };
+  }
 }

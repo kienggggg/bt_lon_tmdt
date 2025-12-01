@@ -46,6 +46,7 @@ export const bookingApi = {
   getMyBookings: () => api.get('/booking/me'),
 
   sendEmail: (bookingId: string) => api.post(`/booking/send-email/${bookingId}`),
+  getStats: () => api.get('/booking/stats'),
 };
 
 export const authApi = {
